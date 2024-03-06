@@ -55,7 +55,7 @@ HISTORIES=3
 PARAMS=()
 
 GENERATE_DEST=/tmp/generate/
-HIST_DEST=/tmp/history/
+HIST_DEST=/tmp/gen/
 HIST_COBRA_SI_DEST=/tmp/history_cobra_si/
 HIST_COBRA_DEST=/tmp/history_cobra/
 COBRA_DEST=/tmp/cobra/
@@ -104,7 +104,7 @@ for i in "${SESSIONS[@]}"; do
   done
 done
 
-# run operations to get history
+# run operations to get gen
 for p in "${PARAMS[@]}"; do
   mkdir -p "$HIST_DEST/$p"
   "$GENERATOR_DIR/target/release/dbcop" run $ADDR --db $DB --dir "/tmp/generate/$p" --out "$HIST_DEST/$p" >/dev/null
@@ -124,7 +124,7 @@ for p in "${PARAMS[@]}"; do
   for hist in $(find "$HIST_DEST/$p" -name "hist-*"); do
     SI2SER_HIST="${hist/$HIST_DEST/$HIST_COBRA_SI_DEST}"
     mkdir -p $SI2SER_HIST
-    java -jar "$SI_DIR/build/libs/PolySI-1.0.0-SNAPSHOT.jar" convert -f dbcop -o cobra -t si2ser $hist/history.bincode $SI2SER_HIST
+    java -jar "$SI_DIR/build/libs/PolySI-1.0.0-SNAPSHOT.jar" convert -f dbcop -o cobra -t si2ser $hist/gen.bincode $SI2SER_HIST
     timeout 180 java "-Djava.library.path=$COBRA_DIR/include/:$COBRA_DIR/build/monosat" -jar "$COBRA_DIR/target/CobraVerifier-0.0.1-SNAPSHOT-jar-with-dependencies.jar" mono audit "$HOME/Source/CobraVerifier/cobra.conf.default" $SI2SER_HIST &> "${hist/$HIST_DEST/$COBRA_SI_DEST}" || true
   done
 done
@@ -135,7 +135,7 @@ done
   # for hist in $(find "$HIST_DEST/$p" -name "hist-*"); do
     # COBRA_HIST="${hist/$HIST_DEST/$HIST_COBRA_DEST}"
     # mkdir -p $COBRA_HIST
-    # java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" convert -f dbcop -o cobra -t identity $hist/history.bincode $COBRA_HIST
+    # java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" convert -f dbcop -o cobra -t identity $hist/gen.bincode $COBRA_HIST
     # java "-Djava.library.path=$COBRA_DIR/include/:$COBRA_DIR/build/monosat" -jar "$COBRA_DIR/target/CobraVerifier-0.0.1-SNAPSHOT-jar-with-dependencies.jar" mono audit "$HOME/Source/CobraVerifier/cobra.conf.default" $COBRA_HIST &> "${hist/$HIST_DEST/$COBRA_DEST}"
   # done
 # done

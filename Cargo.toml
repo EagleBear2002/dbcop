@@ -18,6 +18,8 @@ indicatif = "0.16.2"
 mysql = "22.2.0"
 # rsmgclient = "2.0.0"
 cxx = "1.0.72"
+bitvec = "0.22.3"
+
 
 [build-dependencies]
 cmake = "0.1.48"
@@ -27,3 +29,8 @@ cxx-build = "1.0.72"
 opt-level = 3
 debug = true
 
+[patch.crates-io]
+# temporary solution to funty@1.2.0 being yanked, we should propose bitvec upgrade to upstream filecoin crates
+# tracking issue: https://github.com/bitvecto-rs/funty/issues/7
+# bitvec v0.22.0 depends on funty = "~1.2 which has been yanked #1283
+funty = { git = "https://github.com/bitvecto-rs/funty/", rev = "7ef0d890fbcd8b3def1635ac1a877fc298488446" }

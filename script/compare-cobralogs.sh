@@ -95,7 +95,7 @@ done
   # cobra_hist="$HIST_DEST/$p"
   # hist="$HIST_DBCOP_DEST/$p"
   # mkdir -p "$hist"
-  # java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" convert -f cobra -o dbcop "$cobra_hist" "$hist/history.bincode"
+  # java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" convert -f cobra -o dbcop "$cobra_hist" "$hist/gen.bincode"
   # timeout 180 $DBCOP_DIR/target/release/dbcop verify --cons ser --ver_dir $hist --out_dir "$DBCOP_DEST" >/dev/null || true
   # mv "$DBCOP_DEST/result_log.json" "$DBCOP_DEST/$p"
 # done

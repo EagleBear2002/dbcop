@@ -111,7 +111,7 @@ where
             exec,
         );
 
-        let file = File::create(dir.join("history.bincode")).unwrap();
+        let file = File::create(dir.join("gen.bincode")).unwrap();
         let buf_writer = BufWriter::new(file);
         bincode::serialize_into(buf_writer, &exec_hist).expect("dumping to bincode went wrong");
 

@@ -13,7 +13,7 @@ HISTORIES=3
 PARAMS=()
 
 GENERATE_DEST=/tmp/generate/
-HIST_DEST=/tmp/history/
+HIST_DEST=/tmp/gen/
 SI_DEST=/tmp/si/
 SI_NO_COALESCING_DEST=/tmp/si-no-coalescing/
 SI_NO_PRUNING_DEST=/tmp/si-no-pruning/
@@ -54,7 +54,7 @@ for i in "${SESSIONS[@]}"; do
   done
 done
 
-# run operations to get history
+# run operations to get gen
 for p in "${PARAMS[@]}"; do
   mkdir -p "$HIST_DEST/$p"
 #  "$GENERATOR_DIR/target/release/dbcop" run $ADDR --db $DB --dir "/tmp/generate/$p" --out "$HIST_DEST/$p" >/dev/null
@@ -64,7 +64,7 @@ done
 #for p in "${PARAMS[@]}"; do
 #  mkdir -p "$SI_DEST/$p"
 #  for hist in $(find "$HIST_DEST/$p" -name "hist-*"); do
-#    timeout 180 java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" audit -t dbcop "$hist/history.bincode" &> "${hist/$HIST_DEST/$SI_DEST}" || true
+#    timeout 180 java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" audit -t dbcop "$hist/gen.bincode" &> "${hist/$HIST_DEST/$SI_DEST}" || true
 #  done
 #done
 
@@ -80,7 +80,7 @@ done
 #for p in "${PARAMS[@]}"; do
 #  mkdir -p "$SI_NO_COALESCING_DEST/$p"
 #  for hist in $(find "$HIST_DEST/$p" -name "hist-*"); do
-#    timeout 180 java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" audit -t dbcop --no-coalescing "$hist/history.bincode" &> "${hist/$HIST_DEST/$SI_NO_COALESCING_DEST}" || true
+#    timeout 180 java -jar "$SI_DIR/build/libs/CobraVerifier-0.0.1-SNAPSHOT.jar" audit -t dbcop --no-coalescing "$hist/gen.bincode" &> "${hist/$HIST_DEST/$SI_NO_COALESCING_DEST}" || true
 #  done
 #done
 

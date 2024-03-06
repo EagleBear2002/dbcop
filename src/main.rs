@@ -63,13 +63,13 @@ enum Commands {
         #[clap(long = "nhist", default_value_t = 1, help = "Number of histories to generate")]
         n_history: usize,
 
-        #[clap(long = "nnode", short = 'n', help = "Number of nodes per history")]
+        #[clap(long = "nnode", short = 'n', help = "Number of nodes per gen")]
         n_node: usize,
 
-        #[clap(long = "nvar", short = 'v', help = "Number of variables per history")]
+        #[clap(long = "nvar", short = 'v', help = "Number of variables per gen")]
         n_variable: usize,
 
-        #[clap(long = "ntxn", short = 't', help = "Number of transactions per history")]
+        #[clap(long = "ntxn", short = 't', help = "Number of transactions per gen")]
         n_transaction: usize,
 
         #[clap(long = "nevt", short = 'e', help = "Number of events per transactions")]
@@ -91,7 +91,7 @@ enum Commands {
         random_txn_size: bool,
     },
     Print {
-        #[clap(short = 'd', help = "Directory containing executed history")]
+        #[clap(short = 'd', help = "Directory containing executed gen")]
         directory: PathBuf,
     },
     #[clap(about = "Execute operations on db")]
@@ -125,7 +125,7 @@ fn main() {
 
     match cli.command {
         Commands::Print { directory } => {
-            let v_path = directory.join("history.bincode");
+            let v_path = directory.join("gen.bincode");
             let file = File::open(v_path).unwrap();
             let buf_reader = BufReader::new(file);
             let hist: History = bincode::deserialize_from(buf_reader).unwrap();
@@ -170,7 +170,7 @@ fn main() {
                     .expect("couldn't create bincode file");
                 let buf_writer = BufWriter::new(file);
                 bincode::serialize_into(buf_writer, &hist)
-                    .expect("dumping history to bincode file went wrong");
+                    .expect("dumping gen to bincode file went wrong");
             }
         }
         Commands::Run { hist_dir, hist_out, addrs, database } => {
